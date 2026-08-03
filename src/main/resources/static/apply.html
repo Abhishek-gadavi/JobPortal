@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apply Job</title>
+    <link rel="stylesheet" href="/css/apply.css">
+</head>
+
+<body>
+
+<nav>
+    <h2>Job Portal</h2>
+    <div>
+        <a href="/jobs">Jobs</a>
+        <a href="/login">Logout</a>
+    </div>
+</nav>
+
+
+<div class="apply-container">
+
+    <h1>Apply For Job</h1>
+
+    <form id="applyForm" enctype="multipart/form-data">
+
+        <input
+                type="text"
+                id="fullName"
+                placeholder="Full Name"
+                required>
+
+        <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                required>
+
+        <input
+                type="tel"
+                id="phone"
+                placeholder="Phone Number"
+                required>
+
+        <label for="resume">Upload Resume</label>
+
+        <input
+                type="file"
+                id="resume"
+                accept=".pdf,.doc,.doc,.docx"
+                required>
+
+        <button type="submit">
+            Submit Application
+        </button>
+
+    </form>
+
+
+</div>
+
+
+<script src="/js/apply.js"></script>
+
+</body>
+</html>

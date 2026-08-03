@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Job Portal</div>
+
+    <div class="nav-links">
+        <a href="jobs.html">Jobs</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="welcome-card">
+        <h2>Welcome, <span id="username">User</span></h2>
+        <p>Find your dream job today.</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total Applications</h3>
+            <h1 id="applicationsCount">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Available Jobs</h3>
+            <h1 id="jobsCount">0</h1>
+        </div>
+
+    </div>
+
+    <div class="applications">
+
+        <h2>Recent Applications</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Job</th>
+                <th>Company</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody id="applicationTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="/js/dashboard.js"></script>
+
+</body>
+</html>
