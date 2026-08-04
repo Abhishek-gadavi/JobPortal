@@ -311,7 +311,7 @@ The Admin Dashboard displays:
 - Admin Dashboard
 - Applications Page
 
-(Add screenshots here)
+
 
 ---
 
