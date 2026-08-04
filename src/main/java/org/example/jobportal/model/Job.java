@@ -1,5 +1,6 @@
 package org.example.jobportal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +37,9 @@ public class Job {
 
     private String skills;
 
-    @JsonManagedReference
+
+
+    @JsonIgnore
     @OneToMany(mappedBy = "job",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

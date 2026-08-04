@@ -3,6 +3,7 @@ package org.example.jobportal.model;
 import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -24,9 +25,11 @@ public class Application {
 
     private String resume;
 
-    @JsonBackReference
-    @ManyToOne
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "job_id")
+    @JsonIgnoreProperties("applications")
     private Job job;
 
     @ManyToOne

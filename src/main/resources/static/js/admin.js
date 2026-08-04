@@ -74,7 +74,7 @@ async function loadJobs() {
             table.innerHTML += `
                 <tr>
 
-                    <td>${job.id}</td>
+                    <td>${index+1}</td>
 
                     <td>${job.title}</td>
 
