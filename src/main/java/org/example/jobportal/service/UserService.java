@@ -19,16 +19,13 @@ public class UserService {
 
     public User login(User loginUser) {
 
-        User user = userRepository.findByEmail(loginUser.getEmail());
+        User user = userRepository
+                .findByEmail(loginUser.getEmail())
+                .orElse(null);
 
         System.out.println("Input Email: " + loginUser.getEmail());
-        System.out.println("Input Password: " + loginUser.getPassword());
 
         System.out.println("Database User: " + user);
-
-        if (user != null) {
-            System.out.println("Database Password: " + user.getPassword());
-        }
 
         if (user != null && user.getPassword().equals(loginUser.getPassword())) {
             return user;

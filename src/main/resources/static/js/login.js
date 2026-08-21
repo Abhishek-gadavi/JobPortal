@@ -1,71 +1,83 @@
-const loginForm = document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
 
-loginForm.addEventListener("submit", async function (event) {
+loginForm.addEventListener(
+    "submit",
+    async function (e) {
 
-    event.preventDefault();
+        e.preventDefault();
 
-    const user = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
-    };
+        const email =
+            document.getElementById("email").value;
 
-    try {
+        const password =
+            document.getElementById("password").value;
 
-        const response = await fetch("/api/users/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        });
+        try {
 
-        if (response.ok) {
+            const response = await fetch(
+                "/api/auth/login",
+                {
 
-            const data = await response.json();
+                    method: "POST",
 
-            alert("Login Successful");
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-            localStorage.setItem("user", JSON.stringify(data));
-            localStorage.setItem("userId", data.id);
-            localStorage.setItem("username", data.fullName);
-            localStorage.setItem("role", data.role);
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            if (!response.ok) {
+
+                alert(
+                    "Invalid email or password"
+                );
+
+                return;
+            }
+
+            const data =
+                await response.json();
+
+            // SAVE JWT
+            localStorage.setItem(
+                "token",
+                data.token
+            );
+
+            // SAVE ROLE
+            localStorage.setItem(
+                "role",
+                data.role
+            );
+
+            console.log(
+                "JWT saved successfully"
+            );
 
             if (data.role === "ADMIN") {
-                window.location.href = "admin.html";
+
+                window.location.href =
+                    "/admin.html";
+
             } else {
-                window.location.href = "dashboard.html";
+
+                window.location.href =
+                    "/dashboard.html";
             }
-        } else {
 
-            const message = await response.text();
-            alert(message);
+        } catch (error) {
 
+            console.error(error);
+
+            alert(
+                "Server error. Please try again."
+            );
         }
-
-    } catch (error) {
-
-        console.log(error);
-        alert("Server error. Please try again.");
-
     }
-
-});
-
-const togglePassword = document.getElementById("togglePassword");
-const password = document.getElementById("password");
-
-togglePassword.addEventListener("click", function () {
-
-    if (password.type === "password") {
-
-        password.type = "text";
-        togglePassword.classList.replace("fa-eye", "fa-eye-slash");
-
-    } else {
-
-        password.type = "password";
-        togglePassword.classList.replace("fa-eye-slash", "fa-eye");
-
-    }
-
-});
+);

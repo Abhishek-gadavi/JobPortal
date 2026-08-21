@@ -1,143 +1,90 @@
-const registerForm = document.getElementById("registerForm");
+const registerForm =
+    document.getElementById("registerForm");
 
+registerForm.addEventListener(
+    "submit",
+    async function (e) {
 
-registerForm.addEventListener("submit", async function(e){
+        e.preventDefault();
 
-    e.preventDefault();
+        const user = {
 
+            name: document.getElementById("fullName").value,
 
-    const user = {
+            email: document.getElementById("email").value,
 
+            password: document.getElementById("password").value,
 
-        fullName:
-        document.getElementById("fullName").value,
+            phone: document.getElementById("phone").value
+        };
 
+        try {
 
-        email:
-        document.getElementById("email").value,
+            const response = await fetch(
+                "/api/auth/register",
+                {
+                    method: "POST",
 
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-        password:
-        document.getElementById("password").value,
-
-
-        phone:
-        document.getElementById("phone").value,
-
-
-        role:
-        document.getElementById("role").value
-
-    };
-
-
-
-    try{
-
-
-        const response = await fetch(
-            "http://localhost:8080/api/users/register",
-            {
-
-
-                method:"POST",
-
-
-                headers:{
-
-                    "Content-Type":"application/json"
-
-                },
-
-
-                body:JSON.stringify(user)
-
-            });
-
-
-
-        const data = await response.text();
-
-
-
-        if(response.ok){
-
-
-            alert(
-                "Registration Successful!"
+                    body: JSON.stringify(user)
+                }
             );
 
+            const data = await response.text();
 
-            window.location.href="login.html";
+            if (response.ok) {
 
+                alert("Registration Successful!");
 
-        }
+                window.location.href =
+                    "/login.html";
 
-        else{
+            } else {
 
+                alert(
+                    "Registration Failed: " + data
+                );
+            }
+
+        } catch (error) {
+
+            console.error(error);
 
             alert(
-                "Registration Failed : " + data
+                "Server Error. Please try again."
             );
-
         }
-
-
-
     }
-
-    catch(error){
-
-
-        console.log(error);
+);
 
 
-        alert(
-            "Server Error. Please try again later."
-        );
-
-    }
-
-
-
-});
-
-
-
-
-// Password show/hide
+// SHOW / HIDE PASSWORD
 
 const togglePassword =
-document.getElementById("togglePassword");
+    document.getElementById("togglePassword");
 
+if (togglePassword) {
 
-togglePassword.onclick=function(){
+    togglePassword.addEventListener(
+        "click",
+        function () {
 
+            const password =
+                document.getElementById("password");
 
-    const password =
-    document.getElementById("password");
+            if (password.type === "password") {
 
+                password.type = "text";
+                togglePassword.innerHTML = "🙈";
 
-    if(password.type==="password"){
+            } else {
 
-
-        password.type="text";
-
-
-        togglePassword.innerHTML="🙈";
-
-
-    }
-
-    else{
-
-
-        password.type="password";
-
-
-        togglePassword.innerHTML="👁";
-
-    }
-
-
-};
+                password.type = "password";
+                togglePassword.innerHTML = "👁";
+            }
+        }
+    );
+}
