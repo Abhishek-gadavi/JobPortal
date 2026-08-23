@@ -3,68 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <title>Candidate Dashboard | JobPortal</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
-
-<nav>
-    <div class="logo">Job Portal</div>
-
-    <div class="nav-links">
-        <a href="jobs.html">Jobs</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="#" onclick="logout()">Logout</a>
+<nav class="site-nav">
+    <div class="container nav-inner">
+        <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span>JobPortal</span></a>
+        <div class="nav-links"><a href="/index.html">Home</a><a href="/jobs.html">Jobs</a><a class="active" href="/dashboard.html">Dashboard</a></div>
+        <div class="nav-actions"><button class="btn btn-outline" type="button" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button></div>
     </div>
 </nav>
-
-<div class="container">
-
-    <div class="welcome-card">
-        <h2>Welcome, <span id="username">User</span></h2>
-        <p>Find your dream job today.</p>
+<main class="page-shell">
+    <div class="container">
+        <section class="welcome-banner">
+            <div><p style="margin-bottom:4px;color:rgba(255,255,255,.72)">Candidate dashboard</p><h1>Welcome, <span id="username">User</span></h1><p>Stay on top of your job search and application progress.</p></div>
+            <a class="btn" style="background:white;color:#3457d5" href="/jobs.html"><i class="fa-solid fa-magnifying-glass"></i> Browse jobs</a>
+        </section>
+        <section class="stats-grid">
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-paper-plane"></i></span><div class="stat-label">Total applications</div><div class="stat-value" id="applicationsCount">0</div></article>
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-briefcase"></i></span><div class="stat-label">Available jobs</div><div class="stat-value" id="jobsCount">0</div></article>
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-star"></i></span><div class="stat-label">Shortlisted / selected</div><div class="stat-value" id="positiveCount">0</div></article>
+        </section>
+        <section class="panel">
+            <div class="panel-head"><div><h2>Your applications</h2><span class="muted" style="font-size:.86rem">Latest status from employers</span></div><a class="btn btn-secondary btn-sm" href="/jobs.html">Find more jobs</a></div>
+            <div class="table-wrap"><table><thead><tr><th>Job</th><th>Company</th><th>Location</th><th>Status</th></tr></thead><tbody id="applicationTable"><tr><td colspan="4"><div class="loader"></div></td></tr></tbody></table></div>
+        </section>
     </div>
-
-    <div class="stats">
-
-        <div class="card">
-            <h3>Total Applications</h3>
-            <h1 id="applicationsCount">0</h1>
-        </div>
-
-        <div class="card">
-            <h3>Available Jobs</h3>
-            <h1 id="jobsCount">0</h1>
-        </div>
-
-    </div>
-
-    <div class="applications">
-
-        <h2>Recent Applications</h2>
-
-        <table>
-
-            <thead>
-            <tr>
-                <th>Job</th>
-                <th>Company</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-
-            <tbody id="applicationTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
+</main>
+<script src="/js/auth.js"></script>
 <script src="/js/dashboard.js"></script>
-
 </body>
 </html>

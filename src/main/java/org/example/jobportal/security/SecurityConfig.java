@@ -2,23 +2,16 @@ package org.example.jobportal.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
 import org.springframework.security.config.http.SessionCreationPolicy;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -35,10 +28,19 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+    // ==========================
+    // PASSWORD ENCODER
+    // ==========================
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    // ==========================
+    // AUTHENTICATION PROVIDER
+    // ==========================
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -51,6 +53,11 @@ public class SecurityConfig {
         return provider;
     }
 
+
+    // ==========================
+    // AUTHENTICATION MANAGER
+    // ==========================
+
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration)
@@ -59,60 +66,187 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+
+    // ==========================
+    // SECURITY FILTER CHAIN
+    // ==========================
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http)
             throws Exception {
 
         http
+
+                // JWT API -> CSRF disabled
                 .csrf(csrf -> csrf.disable())
 
+
+                // No HTTP session
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
+
+                // ==========================
+                // AUTHORIZATION
+                // ==========================
+
                 .authorizeHttpRequests(auth -> auth
 
-                        // HTML
+
+                        // ==========================
+                        // FRONTEND PAGES
+                        // ==========================
+
                         .requestMatchers(
                                 "/",
                                 "/index.html",
                                 "/login.html",
-                                "/register.html"
-                        ).permitAll()
+                                "/register.html",
+                                "/jobs.html",
+                                "/dashboard.html",
+                                "/apply.html",
+                                "/admin.html",
+                                "/favicon.ico",
+                                "/error"
+                        )
+                        .permitAll()
 
-                        // CSS JS images
+
+                        // ==========================
+                        // STATIC FILES
+                        // ==========================
+
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // Login/register API
+
+                        // ==========================
+                        // AUTH APIs
+                        // ==========================
+
                         .requestMatchers(
                                 "/api/auth/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // Admin API
+
+                        // ==========================
+                        // JOBS - PUBLIC GET
+                        // ==========================
+
                         .requestMatchers(
-                                "/api/admin/**"
-                        ).hasRole("ADMIN")
+                                HttpMethod.GET,
+                                "/api/jobs",
+                                "/api/jobs/**"
+                        )
+                        .permitAll()
 
-                        // everything else
+
+                        // ==========================
+                        // JOB CREATE - ADMIN
+                        // ==========================
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/jobs",
+                                "/api/jobs/**"
+                        )
+                        .hasRole("ADMIN")
+
+
+                        // ==========================
+                        // JOB UPDATE - ADMIN
+                        // ==========================
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/jobs/**"
+                        )
+                        .hasRole("ADMIN")
+
+
+                        // ==========================
+                        // JOB DELETE - ADMIN
+                        // ==========================
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/jobs/**"
+                        )
+                        .hasRole("ADMIN")
+
+
+                        // ==========================
+                        // CANDIDATE APPLICATIONS
+                        // ==========================
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/applications/apply",
+                                "/api/applications/apply/**"
+                        )
+                        .hasAnyRole("CANDIDATE", "ADMIN")
+
+
+                        // Candidate can see own applications
+                        // Admin can also access
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/applications/user/**"
+                        )
+                        .hasAnyRole(
+                                "CANDIDATE",
+                                "ADMIN"
+                        )
+
+
+                        // ==========================
+                        // ADMIN APPLICATION MANAGEMENT
+                        // ==========================
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/applications/**"
+                        )
+                        .hasRole("ADMIN")
+
+
+                        .requestMatchers(
+                                HttpMethod.PATCH,
+                                "/api/applications/**"
+                        )
+                        .hasRole("ADMIN")
+
+
+                        // ==========================
+                        // EVERYTHING ELSE
+                        // ==========================
+
                         .anyRequest()
                         .authenticated()
                 )
 
+
+                // Authentication provider
                 .authenticationProvider(
                         authenticationProvider()
                 )
 
+
+                // JWT filter
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
+
 
         return http.build();
     }

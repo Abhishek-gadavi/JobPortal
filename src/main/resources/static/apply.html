@@ -1,66 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Apply Job</title>
-    <link rel="stylesheet" href="/css/apply.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Job | JobPortal</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-
 <body>
-
-<nav>
-    <h2>Job Portal</h2>
-    <div>
-        <a href="/jobs">Jobs</a>
-        <a href="/login">Logout</a>
+<nav class="site-nav">
+    <div class="container nav-inner">
+        <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span>JobPortal</span></a>
+        <div class="nav-links"><a href="/index.html">Home</a><a class="active" href="/jobs.html">Jobs</a><a href="/dashboard.html">Dashboard</a></div>
+        <div class="nav-actions"><button class="btn btn-outline" type="button" onclick="logout()">Logout</button></div>
     </div>
 </nav>
-
-
-<div class="apply-container">
-
-    <h1>Apply For Job</h1>
-
-    <form id="applyForm" enctype="multipart/form-data">
-
-        <input
-                type="text"
-                id="fullName"
-                placeholder="Full Name"
-                required>
-
-        <input
-                type="email"
-                id="email"
-                placeholder="Email"
-                required>
-
-        <input
-                type="tel"
-                id="phone"
-                placeholder="Phone Number"
-                required>
-
-        <label for="resume">Upload Resume</label>
-
-        <input
-                type="file"
-                id="resume"
-                accept=".pdf,.doc,.doc,.docx"
-                required>
-
-        <button type="submit">
-            Submit Application
-        </button>
-
-    </form>
-
-
-</div>
-
-
+<main class="page-shell">
+    <div class="container">
+        <div class="page-heading"><div><span class="eyebrow"><i class="fa-solid fa-paper-plane"></i> Application</span><h1>Apply for this role</h1><p>Review the position and submit your details with your resume.</p></div><a class="btn btn-outline" href="/jobs.html"><i class="fa-solid fa-arrow-left"></i> Back to jobs</a></div>
+        <div class="apply-grid">
+            <aside class="summary-card" id="jobSummary"><div class="loader"></div></aside>
+            <section class="form-card">
+                <h2 style="margin-top:0">Your details</h2><p class="muted">Make sure your contact information and resume are up to date.</p>
+                <form id="applyForm" enctype="multipart/form-data">
+                    <div class="form-group"><label for="fullName">Full name</label><input class="form-control" type="text" id="fullName" placeholder="Your full name" required></div>
+                    <div class="form-group"><label for="email">Email address</label><input class="form-control" type="email" id="email" placeholder="you@example.com" required></div>
+                    <div class="form-group"><label for="phone">Phone number</label><input class="form-control" type="tel" id="phone" placeholder="10-digit phone number" required></div>
+                    <div class="form-group"><label for="resume">Resume</label><div class="upload-box"><i class="fa-solid fa-cloud-arrow-up" style="font-size:1.7rem;color:#3457d5;margin-bottom:10px"></i><div style="font-weight:700;margin-bottom:8px">Upload your resume</div><div class="muted" style="font-size:.84rem;margin-bottom:12px">PDF or DOC/DOCX</div><input type="file" id="resume" accept=".pdf,.doc,.docx" required></div></div>
+                    <button class="btn btn-primary btn-block" id="applyButton" type="submit">Submit application <i class="fa-solid fa-paper-plane"></i></button>
+                    <div class="form-message" id="applyMessage" aria-live="polite"></div>
+                </form>
+            </section>
+        </div>
+    </div>
+</main>
+<script src="/js/auth.js"></script>
 <script src="/js/apply.js"></script>
-
 </body>
 </html>

@@ -1,108 +1,71 @@
-const API_URL = "http://localhost:8080/api/jobs";
-
 let allJobs = [];
 
-// Load jobs when page opens
-window.onload = function () {
-    loadJobs();
-};
+if (requireLogin()) {
+    document.addEventListener("DOMContentLoaded", initJobs);
+}
 
-// Fetch all jobs
-function loadJobs() {
+async function initJobs() {
 
-    fetch(API_URL)
-        .then(response => {
+    document
+        .getElementById("searchJob")
+        .addEventListener("input", filterJobs);
 
-            if (!response.ok) {
-                throw new Error("Failed to load jobs");
-            }
+    document
+        .getElementById("searchLocation")
+        .addEventListener("input", filterJobs);
 
-            return response.json();
-        })
-        .then(data => {
+    document
+        .getElementById("clearFilters")
+        .addEventListener("click", () => {
 
-            allJobs = data;
-            displayJobs(allJobs);
+            document.getElementById("searchJob").value = "";
+            document.getElementById("searchLocation").value = "";
 
-        })
-        .catch(error => {
-
-            console.error("Error:", error);
-
-            document.getElementById("jobsContainer").innerHTML =
-                "<h2 style='text-align:center;color:red;'>Unable to load jobs.</h2>";
+            filterJobs();
         });
 
+    await loadJobs();
 }
 
+async function loadJobs() {
 
-// Display jobs
-function displayJobs(jobs) {
+    const container =
+        document.getElementById("jobsContainer");
 
-    const jobsContainer = document.getElementById("jobsContainer");
+    try {
 
-    jobsContainer.innerHTML = "";
+        // IMPORTANT: authFetch sends JWT
+        const response = await fetch("/api/jobs");
+        if (!response) {
+            return;
+        }
 
-    if (jobs.length === 0) {
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load jobs. Status: " + response.status
+            );
+        }
 
-        jobsContainer.innerHTML =
-            "<h2 style='text-align:center;'>No Jobs Available</h2>";
+        allJobs = await response.json();
 
-        return;
-    }
+        console.log("Jobs:", allJobs);
 
-    jobs.forEach(job => {
+        filterJobs();
 
-        jobsContainer.innerHTML += `
+    } catch (error) {
 
-        <div class="job-card">
+        console.error("Job loading error:", error);
 
-            <h2>${job.title}</h2>
-
-            <div class="company">${job.company}</div>
-
-            <div class="info">
-                 <b>Location:</b> ${job.location}
+        container.innerHTML = `
+            <div class="empty-state">
+                <h3>Unable to load jobs</h3>
+                <p>${escapeHtml(error.message)}</p>
             </div>
-
-            <div class="info">
-                 <b>Salary:</b> ₹${job.salary}
-            </div>
-
-            <div class="info">
-                 <b>Experience:</b> ${job.experience}
-            </div>
-
-            <div class="skills">
-                <b>Skills:</b>
-                ${job.skills ? job.skills : "Not Specified"}
-            </div>
-
-            <div class="description">
-                <b>Job Description</b>
-                <br><br>
-                ${job.description}
-            </div>
-
-            <button
-                class="apply-btn"
-                onclick="applyJob(${job.id})">
-
-                Apply Now
-
-            </button>
-
-        </div>
-
         `;
-
-    });
-
+    }
 }
 
-
-// Search jobs
-function searchJobs() {
+function filterJobs() {
 
     const keyword = document
         .getElementById("searchJob")
@@ -110,22 +73,99 @@ function searchJobs() {
         .toLowerCase()
         .trim();
 
-    const filteredJobs = allJobs.filter(job =>
+    const location = document
+        .getElementById("searchLocation")
+        .value
+        .toLowerCase()
+        .trim();
 
-        job.title &&
-        job.title.toLowerCase().includes(keyword)
+    const filtered = allJobs.filter(job => {
 
-    );
+        const data = `
+            ${job.title || ""}
+            ${job.company || ""}
+            ${job.skills || ""}
+        `.toLowerCase();
 
-    displayJobs(filteredJobs);
+        return (
+            data.includes(keyword) &&
+            String(job.location || "")
+                .toLowerCase()
+                .includes(location)
+        );
+    });
 
+    document.getElementById("jobsSummary").textContent =
+        `${filtered.length} opportunities found`;
+
+    displayJobs(filtered);
 }
 
+function displayJobs(jobs) {
 
-// Apply Job
+    const container =
+        document.getElementById("jobsContainer");
+
+    if (jobs.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <h3>No Jobs Available</h3>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = jobs.map(job => `
+
+        <article class="job-card">
+
+            <h2>${escapeHtml(job.title)}</h2>
+
+            <h3>
+                ${escapeHtml(job.company)}
+            </h3>
+
+            <p>
+                <b>Location:</b>
+                ${escapeHtml(job.location)}
+            </p>
+
+            <p>
+                <b>Salary:</b>
+                ₹${escapeHtml(job.salary)}
+            </p>
+
+            <p>
+                <b>Experience:</b>
+                ${escapeHtml(job.experience)}
+            </p>
+
+            <p>
+                <b>Skills:</b>
+                ${escapeHtml(job.skills || "Not specified")}
+            </p>
+
+            <p>
+                ${escapeHtml(job.description || "")}
+            </p>
+
+            <button
+                class="btn btn-primary"
+                onclick="applyJob(${Number(job.id)})">
+
+                Apply Now
+
+            </button>
+
+        </article>
+
+    `).join("");
+}
+
 function applyJob(jobId) {
 
     window.location.href =
-        "apply.html?jobId=" + jobId;
-
+        `/apply.html?jobId=${jobId}`;
 }

@@ -1,216 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Admin Dashboard</title>
-
-    <link rel="stylesheet" href="/css/admin.css">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <title>Admin Dashboard | JobPortal</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-
 <body>
-
-<nav class="navbar">
-
-    <div class="logo">
-        <h2>Job Portal</h2>
+<nav class="site-nav">
+    <div class="container nav-inner">
+        <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span>JobPortal Admin</span></a>
+        <div class="nav-links"><a href="/index.html">Home</a><a href="/jobs.html">Jobs</a><a class="active" href="/admin.html">Admin</a></div>
+        <div class="nav-actions"><button class="btn btn-outline" type="button" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button></div>
     </div>
-
-    <div class="nav-links">
-
-        <a href="index.html">Home</a>
-
-        <a href="jobs.html">Jobs</a>
-
-        <a href="dashboard.html">Dashboard</a>
-
-        <button onclick="logout()">
-            Logout
-        </button>
-
-    </div>
-
 </nav>
-<header>
-
-    <h1>Admin Dashboard</h1>
-
-    <p>
-        Manage Jobs, Users and Applications
-    </p>
-
-</header>
-
-<!-- Dashboard Cards -->
-
-<section class="cards">
-
-    <div class="card">
-        <h3>Total Jobs</h3>
-        <h1 id="totalJobs">0</h1>
+<main class="page-shell">
+    <div class="container">
+        <div class="page-heading"><div><span class="eyebrow"><i class="fa-solid fa-shield-halved"></i> Administration</span><h1>Recruitment dashboard</h1><p>Manage job listings and review candidate applications.</p></div><button class="btn btn-outline" type="button" onclick="loadDashboard()"><i class="fa-solid fa-rotate"></i> Refresh</button></div>
+        <section class="stats-grid admin-stats">
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-briefcase"></i></span><div class="stat-label">Jobs</div><div class="stat-value" id="totalJobs">0</div></article>
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-users"></i></span><div class="stat-label">Users</div><div class="stat-value" id="totalUsers">0</div></article>
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-file-lines"></i></span><div class="stat-label">Applications</div><div class="stat-value" id="totalApplications">0</div></article>
+            <article class="stat-card"><span class="stat-icon"><i class="fa-solid fa-building"></i></span><div class="stat-label">Companies</div><div class="stat-value" id="totalCompanies">0</div></article>
+        </section>
+        <div class="admin-grid">
+            <aside class="admin-form-card">
+                <h2 id="formTitle">Add a job</h2><p class="muted" id="formSubtitle">Publish a new opportunity.</p>
+                <form id="jobForm">
+                    <div class="form-group"><label for="title">Job title</label><input class="form-control" id="title" type="text" required></div>
+                    <div class="form-group"><label for="company">Company</label><input class="form-control" id="company" type="text" required></div>
+                    <div class="form-group"><label for="location">Location</label><input class="form-control" id="location" type="text" required></div>
+                    <div class="form-group"><label for="salary">Salary</label><input class="form-control" id="salary" type="text" placeholder="e.g. 8 LPA" required></div>
+                    <div class="form-group"><label for="experience">Experience</label><input class="form-control" id="experience" type="text" placeholder="e.g. 0-2 years" required></div>
+                    <div class="form-group"><label for="skills">Skills</label><input class="form-control" id="skills" type="text" placeholder="Java, Spring Boot, SQL"></div>
+                    <div class="form-group"><label for="description">Description</label><textarea class="form-control" id="description" required></textarea></div>
+                    <button class="btn btn-primary btn-block" id="saveJobButton" type="submit">Add job</button>
+                    <button class="btn btn-outline btn-block hidden" id="cancelEditButton" type="button" style="margin-top:8px">Cancel edit</button>
+                    <div class="form-message" id="adminMessage"></div>
+                </form>
+            </aside>
+            <div class="admin-content">
+                <section class="panel"><div class="panel-head"><div><h2>Manage jobs</h2><span class="muted" style="font-size:.86rem">Edit or remove active listings</span></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Role</th><th>Company</th><th>Location</th><th>Experience</th><th>Actions</th></tr></thead><tbody id="jobTable"><tr><td colspan="6"><div class="loader"></div></td></tr></tbody></table></div></section>
+                <section class="panel"><div class="panel-head"><div><h2>Candidate applications</h2><span class="muted" style="font-size:.86rem">Review resumes and update status</span></div></div><div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Job</th><th>Contact</th><th>Resume</th><th>Status</th></tr></thead><tbody id="applicationTable"><tr><td colspan="5"><div class="loader"></div></td></tr></tbody></table></div></section>
+            </div>
+        </div>
     </div>
-
-    <div class="card">
-        <h3>Total Users</h3>
-        <h1 id="totalUsers">0</h1>
-    </div>
-
-    <div class="card">
-        <h3>Applications</h3>
-        <h1 id="totalApplications">0</h1>
-    </div>
-
-    <div class="card">
-        <h3>Companies</h3>
-        <h1 id="totalCompanies">0</h1>
-    </div>
-
-</section>
-
-<!-- Add Job -->
-
-<section class="jobSection">
-
-    <h2>Add New Job</h2>
-
-    <form id="jobForm">
-
-        <input
-                type="text"
-                id="title"
-                placeholder="Job Title"
-                required>
-
-        <input
-                type="text"
-                id="company"
-                placeholder="Company"
-                required>
-
-        <input
-                type="text"
-                id="location"
-                placeholder="Location"
-                required>
-
-        <input
-                type="number"
-                id="salary"
-                placeholder="Salary"
-                required>
-
-        <input
-                type="text"
-                id="skills"
-                placeholder="Skills">
-
-        <input
-                type="number"
-                id="experience"
-                placeholder="Experience"
-                required>
-
-        <textarea
-                id="description"
-                placeholder="Job Description"
-                required></textarea>
-
-        <button type="submit">
-
-            Add Job
-
-        </button>
-
-    </form>
-
-</section>
-
-<!-- Jobs -->
-
-<section>
-
-    <h2>Manage Jobs</h2>
-
-    <table>
-
-        <thead>
-
-        <tr>
-
-            <th>ID</th>
-
-            <th>Title</th>
-
-            <th>Company</th>
-
-            <th>Location</th>
-
-            <th>Salary</th>
-
-            <th>Skills</th>
-
-            <th>Experience</th>
-
-            <th>Edit</th>
-
-            <th>Delete</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody id="jobTable">
-
-        </tbody>
-
-    </table>
-
-</section>
-
-<!-- Applications -->
-
-<section>
-
-    <h2>Applications</h2>
-
-    <table>
-
-        <thead>
-
-        <tr>
-
-            <th>Name</th>
-
-            <th>Email</th>
-
-            <th>Phone</th>
-
-            <th>Job</th>
-
-            <th>Resume</th>
-
-            <th>Status</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody id="applicationTable">
-
-        </tbody>
-
-    </table>
-
-</section>
-
+</main>
+<script src="/js/auth.js"></script>
 <script src="/js/admin.js"></script>
-
 </body>
-
 </html>

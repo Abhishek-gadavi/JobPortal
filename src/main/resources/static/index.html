@@ -1,382 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Job Portal</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <title>JobPortal | Find Your Next Opportunity</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-
 <body>
-
-<!-- ================= NAVBAR ================= -->
-
-<nav>
-
-    <div class="logo">
-
-        <img src="images/logo.png" alt="JobPortal Logo">
-
-        <span>JobPortal</span>
-
+<nav class="site-nav">
+    <div class="container nav-inner">
+        <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span>JobPortal</span></a>
+        <div class="nav-links">
+            <a class="active" href="/index.html">Home</a>
+            <a href="/jobs.html">Jobs</a>
+            <a href="#features">Why us</a>
+            <a href="#companies">Companies</a>
+        </div>
+        <div class="nav-actions">
+            <a class="btn btn-outline" href="/login.html">Sign in</a>
+            <a class="btn btn-primary" href="/register.html">Create account</a>
+        </div>
     </div>
-
-    <ul>
-
-        <li><a href="index.html">Home</a></li>
-
-        <li><a href="jobs.html">Jobs</a></li>
-
-        <li><a href="login.html">Login</a></li>
-
-        <li><a href="register.html">Register</a></li>
-
-<!--        <li><a href="dashboard.html">DashBoard</a></li>-->
-
-<!--        <li><a href="admin.html">Admin</a></li>-->
-
-
-
-    </ul>
-
 </nav>
 
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-
-    <div class="hero-left">
-
-        <h1>
-
-            Find Your
-
-            <span>Dream Job</span>
-
-        </h1>
-
-        <p>
-
-            Search thousands of jobs from India's top companies.
-
-            Apply in one click and build your career.
-
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="jobs.html">
-
-                <button class="primary-btn">
-
-                    Browse Jobs
-
-                </button>
-
-            </a>
-
-            <a href="register.html">
-
-                <button class="secondary-btn">
-
-                    Register
-
-                </button>
-
-            </a>
-
+<header class="hero">
+    <div class="container hero-grid">
+        <div>
+            <span class="eyebrow"><i class="fa-solid fa-bolt"></i> Build your career with confidence</span>
+            <h1>Find work that moves your <span>career forward.</span></h1>
+            <p class="hero-copy">Discover relevant opportunities, apply with your resume, and track every application from one clean dashboard.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="/jobs.html"><i class="fa-solid fa-magnifying-glass"></i> Explore jobs</a>
+                <a class="btn btn-outline" href="/register.html">Get started free</a>
+            </div>
         </div>
-
+        <div class="hero-art" aria-label="Job opportunities preview">
+            <div class="hero-panel">
+                <div class="hero-panel-row">
+                    <div class="company-icon">JD</div>
+                    <div><h3>Java Developer</h3><p>Bengaluru · Full time</p></div>
+                    <span class="mini-badge">New</span>
+                </div>
+                <div class="hero-panel-row">
+                    <div class="company-icon">FE</div>
+                    <div><h3>Frontend Engineer</h3><p>Hyderabad · Hybrid</p></div>
+                    <span class="mini-badge">Hiring</span>
+                </div>
+                <div class="hero-panel-row">
+                    <div class="company-icon">SE</div>
+                    <div><h3>Software Engineer</h3><p>Pune · Full time</p></div>
+                    <span class="mini-badge">New</span>
+                </div>
+            </div>
+        </div>
     </div>
+</header>
 
-    <div class="hero-right">
+<div class="container search-strip">
+    <form class="search-card" id="landingSearch">
+        <div class="input-shell"><i class="fa-solid fa-magnifying-glass"></i><input class="form-control" id="homeKeyword" placeholder="Job title or skill"></div>
+        <div class="input-shell"><i class="fa-solid fa-location-dot"></i><input class="form-control" id="homeLocation" placeholder="Location"></div>
+        <button class="btn btn-primary" type="submit">Search jobs</button>
+    </form>
+</div>
 
-        <img src="images/hero.png" alt="Hero">
-
+<section class="section" id="features">
+    <div class="container">
+        <div class="section-head"><h2>Everything you need for a simpler job search</h2><p>Focused tools for discovering openings, submitting applications and tracking progress.</p></div>
+        <div class="card-grid">
+            <article class="feature-card"><div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div><h3>Smart discovery</h3><p>Filter opportunities by title and location to find relevant roles faster.</p></article>
+            <article class="feature-card"><div class="feature-icon"><i class="fa-solid fa-file-arrow-up"></i></div><h3>Easy applications</h3><p>Upload your resume and send your application from a simple guided form.</p></article>
+            <article class="feature-card"><div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div><h3>Track progress</h3><p>See your recent applications and recruitment status from your dashboard.</p></article>
+            <article class="feature-card"><div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div><h3>Secure access</h3><p>Your account uses token-based authentication for protected application actions.</p></article>
+        </div>
     </div>
-
 </section>
 
-<!-- ================= SEARCH ================= -->
-
-<section class="search-section">
-
-    <h2>Search Jobs</h2>
-
-    <div class="search-box">
-
-        <input
-                type="text"
-                placeholder="Job Title">
-
-        <input
-                type="text"
-                placeholder="Location">
-
-        <button>
-
-            Search
-
-        </button>
-
+<section class="section" id="companies" style="padding-top:0">
+    <div class="container">
+        <div class="section-head"><h2>Built for opportunities across leading companies</h2><p>Explore software, engineering, operations and business roles from growing teams.</p></div>
+        <div class="company-row">
+            <div class="company-pill"><i class="fa-brands fa-google"></i> Google</div>
+            <div class="company-pill"><i class="fa-brands fa-microsoft"></i> Microsoft</div>
+            <div class="company-pill"><i class="fa-brands fa-amazon"></i> Amazon</div>
+            <div class="company-pill"><i class="fa-solid fa-building"></i> Infosys</div>
+            <div class="company-pill"><i class="fa-solid fa-building"></i> TCS</div>
+        </div>
     </div>
-
 </section>
 
-<!-- ================= FEATURED ================= -->
-
-<section class="companies">
-
-    <h2>
-
-        Top Companies Hiring
-
-    </h2>
-
-    <div class="company-grid">
-
-        <div class="company-card">
-
-            <i class="fa-brands fa-google"></i>
-
-            <h3>Google</h3>
-
-        </div>
-
-        <div class="company-card">
-
-            <i class="fa-brands fa-microsoft"></i>
-
-            <h3>Microsoft</h3>
-
-        </div>
-
-        <div class="company-card">
-
-            <i class="fa-brands fa-amazon"></i>
-
-            <h3>Amazon</h3>
-
-        </div>
-
-        <div class="company-card">
-
-            <i class="fa-solid fa-building"></i>
-
-            <h3>Infosys</h3>
-
-        </div>
-
+<section class="section" style="padding-top:20px">
+    <div class="container">
+        <div class="cta-box"><div><h2>Ready to find your next role?</h2><p>Create your profile, explore available jobs and start applying.</p></div><a class="btn" href="/register.html">Create your account <i class="fa-solid fa-arrow-right"></i></a></div>
     </div>
-
 </section>
 
-<!-- ================= FEATURES ================= -->
-
-<section class="features">
-
-    <h2>
-
-        Why Choose Us
-
-    </h2>
-
-    <div class="feature-grid">
-
-        <div class="feature-card">
-
-            <i class="fa-solid fa-user-tie"></i>
-
-            <h3>Professional Jobs</h3>
-
-            <p>
-
-                Thousands of verified job opportunities.
-
-            </p>
-
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div><a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span style="color:white">JobPortal</span></a><p>A clean and secure platform for discovering jobs and managing applications.</p></div>
+            <div><h4>Explore</h4><p><a href="/jobs.html">Browse jobs</a></p><p><a href="/login.html">Sign in</a></p><p><a href="/register.html">Register</a></p></div>
+            <div><h4>Candidate</h4><p><a href="/dashboard.html">Dashboard</a></p><p><a href="/jobs.html">Applications</a></p></div>
         </div>
-
-        <div class="feature-card">
-
-            <i class="fa-solid fa-building"></i>
-
-            <h3>Top Companies</h3>
-
-            <p>
-
-                Apply to India's leading organizations.
-
-            </p>
-
-        </div>
-
-        <div class="feature-card">
-
-            <i class="fa-solid fa-clock"></i>
-
-            <h3>Quick Apply</h3>
-
-            <p>
-
-                Apply with one click.
-
-            </p>
-
-        </div>
-
-        <div class="feature-card">
-
-            <i class="fa-solid fa-shield"></i>
-
-            <h3>Trusted Portal</h3>
-
-            <p>
-
-                Safe and secure recruitment.
-
-            </p>
-
-        </div>
-
+        <div class="footer-bottom">© 2026 JobPortal. Your career starts here.</div>
     </div>
-
-</section>
-
-<!-- ================= LATEST JOBS ================= -->
-
-<section class="latest">
-
-    <h2>
-
-        Latest Jobs
-
-    </h2>
-
-    <div class="latest-grid">
-
-        <div class="job">
-
-            <h3>Java Developer</h3>
-
-            <p>Infosys</p>
-
-            <button>
-
-                View
-
-            </button>
-
-        </div>
-
-        <div class="job">
-
-            <h3>Python Developer</h3>
-
-            <p>TCS</p>
-
-            <button>
-
-                View
-
-            </button>
-
-        </div>
-
-        <div class="job">
-
-            <h3>Frontend Developer</h3>
-
-            <p>Google</p>
-
-            <button>
-
-                View
-
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-    <div>
-
-        <h2>
-
-            JobPortal
-
-        </h2>
-
-        <p>
-
-            Your Career Starts Here.
-
-        </p>
-
-    </div>
-
-    <div>
-
-        <h3>
-
-            Quick Links
-
-        </h3>
-
-        <p><a href="index.html">Home</a></p>
-
-        <p><a href="jobs.html">Jobs</a></p>
-
-        <p><a href="login.html">Login</a></p>
-
-        <p><a href="register.html">Register</a></p>
-
-        <p><a href="dashboard.html">Dashboard</a></p>
-
-        <p><a href="admin.html">Admin</a></p>
-
-    </div>
-
-    <div>
-
-        <h3>
-
-            Contact
-
-        </h3>
-
-        <p>
-
-            support@jobportal.com
-
-        </p>
-
-        <p>
-
-            +91 9876543210
-
-        </p>
-
-    </div>
-
 </footer>
-
+<script>
+    document.getElementById('landingSearch').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const q = encodeURIComponent(document.getElementById('homeKeyword').value.trim());
+        const location = encodeURIComponent(document.getElementById('homeLocation').value.trim());
+        window.location.href = `/jobs.html?q=${q}&location=${location}`;
+    });
+</script>
 </body>
-
 </html>

@@ -35,9 +35,9 @@ public class JobController {
         jobService.deleteJob(id);
         return "Job deleted successfully";
     }
-        @PutMapping("/{id}")
-        public Job updateJob(@PathVariable Long id, @RequestBody Job job) {
-            return jobService.updateJob(id, job);
-        }
+    @PutMapping("/{id}")
+    public Job updateJob(@PathVariable Long id, @RequestBody Job job) {
+        return jobService.updateJob(id, job);
+    }
 
 }

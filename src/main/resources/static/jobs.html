@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Jobs</title>
-    <link rel="stylesheet" href="/css/jobs.css"></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Jobs | JobPortal</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
 <body>
-<nav>
-    <h2>Job Portal</h2>
-    <a href="index.html">Home</a>
-    <a href="login.html">Logout</a>
+<nav class="site-nav">
+    <div class="container nav-inner">
+        <a class="brand" href="/index.html"><span class="brand-mark"><i class="fa-solid fa-briefcase"></i></span><span>JobPortal</span></a>
+        <div class="nav-links"><a href="/index.html">Home</a><a class="active" href="/jobs.html">Jobs</a><a href="/dashboard.html">Dashboard</a></div>
+        <div class="nav-actions"><button class="btn btn-outline" type="button" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button></div>
+    </div>
 </nav>
-<h1>Available Jobs</h1>
-<div id="jobsContainer"></div>
-<div class="search-container">
-    <input
-            type="text"
-            id="searchJob"
-            placeholder="Search by Job Title..."
-            onkeyup="searchJobs()">
-
-</div>
+<main class="page-shell">
+    <div class="container">
+        <div class="page-heading"><div><span class="eyebrow"><i class="fa-solid fa-sparkles"></i> Opportunities</span><h1>Find your next role</h1><p id="jobsSummary">Browse currently available positions.</p></div></div>
+        <section class="toolbar" aria-label="Job filters">
+            <div class="input-shell"><i class="fa-solid fa-magnifying-glass"></i><input class="form-control" id="searchJob" type="search" placeholder="Search title, company or skill"></div>
+            <div class="input-shell"><i class="fa-solid fa-location-dot"></i><input class="form-control" id="searchLocation" type="search" placeholder="Filter by location"></div>
+            <button class="btn btn-secondary" id="clearFilters" type="button"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+        </section>
+        <div id="jobsContainer" class="jobs-layout"><div class="loader"></div></div>
+    </div>
+</main>
+<script src="/js/auth.js"></script>
 <script src="/js/jobs.js"></script>
 </body>
 </html>

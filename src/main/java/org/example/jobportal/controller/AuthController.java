@@ -84,7 +84,7 @@ public class AuthController {
                 )
         );
 
-        user.setRole(Role.USER);
+        user.setRole(Role.CANDIDATE);
 
         userRepository.save(user);
 
@@ -121,7 +121,11 @@ public class AuthController {
         return ResponseEntity.ok(
                 new AuthResponse(
                         token,
-                        user.getRole().name()
+                        user.getRole().name(),
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone()
                 )
         );
     }
